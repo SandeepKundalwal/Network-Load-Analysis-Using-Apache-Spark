@@ -1,0 +1,83 @@
+<html>
+<head>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+</head>
+
+<link rel="stylesheet" href="Dashboard.css">
+<svg style="height: 0">
+    <defs>
+        <linearGradient id="gradient-0" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" />
+            <stop offset="1" />
+        </linearGradient>
+        <linearGradient id="gradient-1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" />
+            <stop offset="1" />
+        </linearGradient>
+    </defs>
+</svg>
+<body>
+<div id="graph_container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+
+<script>
+ // Instantiate the chart object which plots the samples.
+ console.log
+      var graph = new Highcharts.chart('graph_container', {
+          chart: {
+              type: 'spline',
+              styledMode: true
+              animation: Highcharts.svg, // don't animate in old IE
+              marginRight: 10,
+              events: {
+                  load: function () {
+                      // set up the updating of the chart on each sample
+                      var series = this.series[0];
+                      var socket = io.connect('http://localhost:3000');
+                      socket.on('chart_data', function (sample) {
+                          //add chart data to series
+                          series.addPoint([sample.x, sample.y], true, false);
+                      });
+                  }
+              }
+          },
+          title: {
+              text: 'Network Load Analysis'
+          },
+          xAxis: {
+              type: 'datetime',
+              tickPixelInterval: 150
+          },
+          yAxis: {
+              title: {
+                  text: 'Value'
+              },
+              plotLines: [{
+                  value: 0,
+                  width: 1,
+                  color: '#808080'
+              }]
+          },
+          tooltip: {
+              formatter: function () {
+                  return '<b>' + this.series.name + '</b><br/>' +
+                      Highcharts.dateFormat('%H:%M:%S', this.x) + '<br/>' +
+                      Highcharts.numberFormat(this.y, 2);
+              }
+          },
+          legend: {
+              enabled: false
+          },
+          exporting: {
+              enabled: false
+          },
+          series: [{
+              name: 'Packet Info (KB)',
+              data: []
+          }]
+      });
+</script>
+
+</body>
+</html>

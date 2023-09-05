@@ -1,0 +1,21 @@
+{
+  "name": "webpage",
+  "version": "1.0.0",
+  "description": "Webpage for Data Visualization using Line Graph Plots for NetStream",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mahima Gupta",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "iconv": "^3.0.1",
+    "json-socket": "^0.3.0",
+    "nodemon": "^2.0.20",
+    "nunjucks": "^3.2.3",
+    "pug": "^3.0.2",
+    "socket.io": "^4.5.3",
+    "utf8": "^3.0.0"
+  }
+}
